@@ -9,14 +9,20 @@
 </head>
 
 <body dir="rtl" class="bg-light">
+    @php
+        $user = auth()->user();
+    @endphp
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <div class="container">
             {{-- لوگو --}}
             <a class="navbar-brand ms-auto" href="{{ route('home') }}">بانک من</a>
 
-            {{-- دکمه همبرگری (فقط اگر کاربر لاگین باشد) --}}
+             @auth
+                <span class=" text-dark text-center mx-5">{{ $user->name }}</span>
+            @endauth
             @auth
+            {{-- دکمه همبرگری (فقط اگر کاربر لاگین باشد) --}}
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
                     aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -25,9 +31,7 @@
 
             {{-- محتوا (فقط اگر کاربر لاگین باشد) --}}
             @auth
-                @php
-                    $user = auth()->user();
-                @endphp
+
                 @auth
 
                 @endauth
@@ -37,8 +41,8 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         @if (auth()->user()->is_admin)
                             <li class="nav-item">
-                                <a class="nav-link btn btn-danger border m-1"
-                                 href="{{ route('admin.users.index') }}">  لیست کاربران</a>
+                                <a class="nav-link btn btn-danger border m-1" href="{{ route('admin.users.index') }}"> لیست
+                                    کاربران</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link btn btn-danger border m-1" href="#"> لیست وام ها </a>

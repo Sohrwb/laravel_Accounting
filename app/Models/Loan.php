@@ -6,15 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Loan extends Model
 {
-    protected $fillable = [
-        'user_id',
-        'amount',
-        'remaining_amount',
-        'start_date',
-        'end_date',
-        'installments_count',
-        'is_paid'
-    ];
+      protected $guarded = [];
 
     public function user()
     {
@@ -25,7 +17,8 @@ class Loan extends Model
     {
         return $this->hasMany(LoanPayment::class);
     }
- 
+
+
 
     public function loanPayments()
     {

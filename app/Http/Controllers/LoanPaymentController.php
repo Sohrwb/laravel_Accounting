@@ -10,8 +10,8 @@ class LoanPaymentController extends Controller
 {
     public function index()
     {
-        $payments = LoanPayment::with(['loan.user'])->latest()->get();
-        return view('loan-payments.index', compact('payments'));
+        $loanPayments = LoanPayment::with(['loan.user'])->latest()->get();
+        return view('loan-payments.index', compact('loanPayments'));
     }
 
     public function create()
@@ -30,6 +30,7 @@ public function pay(LoanPayment $payment)
     DB::transaction(function () use ($payment) {
         // علامت‌گذاری قسط به عنوان پرداخت‌شده
         $payment->update(['is_paid' => true]);
+        $payment->update(['payment_date' => now()]);
 
         // بررسی اینکه آیا همه اقساط پرداخت شده‌اند یا نه
         $loan = $payment->loan;

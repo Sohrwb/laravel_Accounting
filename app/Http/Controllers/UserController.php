@@ -26,7 +26,7 @@ class UserController extends Controller
         /** @var \App\Models\User $user */
         $user->load([
             'investments',
-            'points',
+            'point',
             'loans.loanPayments',
         ]);
 
@@ -35,7 +35,6 @@ class UserController extends Controller
 
         if ($user->loans->first()) {
             $loan = $user->loans->first();
-
 
             $payments = $loan->loanPayments()
             ->whereMonth('payment_date', Carbon::now()->month)
@@ -48,7 +47,7 @@ class UserController extends Controller
 
         $familyMembers = User::where('family_id', $familyId)
             ->withSum('investments', 'amount')
-            ->with('points')
+            ->with('point')
             ->get();
 
         $point = Point::where('user_id', $userId)->first();

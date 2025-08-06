@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Family extends Model
 {
-    protected $fillable = ['name'];
-
+    protected $guarded = [];
     public function users()
     {
         return $this->hasMany(User::class);

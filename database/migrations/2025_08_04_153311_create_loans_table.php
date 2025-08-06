@@ -11,18 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-     Schema::create('loans', function (Blueprint $table) {
-    $table->id();
-    $table->foreignId('user_id')->constrained()->onDelete('cascade');
-    $table->integer('amount');
-    $table->integer('remaining_amount');
-    $table->date('start_date');
-    $table->date('end_date');
-    $table->integer('installments_count');
-    $table->boolean('is_paid')->default(false);
-    $table->timestamps();
-});
-
+        Schema::create('loans', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->nullable();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->integer('amount');
+            $table->integer('remaining_amount');
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->integer('installments_count');
+            $table->boolean('is_paid')->default(false);
+            $table->timestamps();
+        });
     }
 
     /**

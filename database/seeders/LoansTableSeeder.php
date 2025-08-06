@@ -12,6 +12,7 @@ class LoansTableSeeder extends Seeder
     {
         Loan::create([
             'user_id' => 1,
+            'name' => "خانه حسین پورمحمدیان - مرداد",
             'amount' => 1200000,
             'remaining_amount' => 1200000,
             'start_date' => now()->format('Y-m-d'),

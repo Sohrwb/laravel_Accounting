@@ -13,6 +13,7 @@ class LoanPaymentsTableSeeder extends Seeder
             'loan_id' => 1,
             'amount' => 200000,
             'payment_date' => now()->format('Y-m-d'),
+            'due_date' => now()->addMonth()
         ]);
     }
 }

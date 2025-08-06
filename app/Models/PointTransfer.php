@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PointTransfer extends Model
 {
-    protected $fillable = ['from_user_id', 'to_user_id', 'amount'];
-
+    protected $guarded = [];
     public function fromUser()
     {
         return $this->belongsTo(User::class, 'from_user_id');

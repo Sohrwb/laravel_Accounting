@@ -5,8 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Investment extends Model
 {
-    protected $fillable = ['user_id', 'amount', 'month'];
-
+   protected $guarded = [];
     public function user()
     {
         return $this->belongsTo(User::class);

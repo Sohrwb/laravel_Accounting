@@ -16,6 +16,7 @@
                 <th>تاریخ شروع</th>
                 <th>تاریخ پایان</th>
                 <th>وضعیت</th>
+                <th>مشاهده</th>
             </tr>
         </thead>
         <tbody>
@@ -33,6 +34,8 @@
                             <span class="text-danger">در حال پرداخت</span>
                         @endif
                     </td>
+                    <td><a href="{{ route('loans.show', $loan) }}"class="btn btn-primary">جزییات وام</a></td>
+
                 </tr>
             @endforeach
         </tbody>

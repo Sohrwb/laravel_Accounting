@@ -27,10 +27,6 @@
             <input type="date" class="form-control" name="start_date" required>
         </div>
 
-        <div class="mb-3">
-            <label class="form-label">تاریخ پایان</label>
-            <input type="date" class="form-control" name="end_date" required>
-        </div>
 
         <div class="mb-3">
             <label class="form-label">تعداد اقساط</label>

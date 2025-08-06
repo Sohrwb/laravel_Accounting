@@ -41,9 +41,7 @@ class User extends Authenticatable
         ];
     }
 
- protected $fillable = [
-        'name', 'email', 'password', 'family_id'
-    ];
+    protected $guarded = [];
 
     protected $hidden = ['password'];
 
@@ -81,5 +79,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(PointTransfer::class, 'to_user_id');
     }
-
 }
