@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="fa">
 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'سیستم حسابداری')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 
+
+
 <body dir="rtl" class="bg-light">
+
     @php
         $user = auth()->user();
     @endphp
@@ -18,11 +23,11 @@
             {{-- لوگو --}}
             <a class="navbar-brand ms-auto" href="{{ route('home') }}">بانک من</a>
 
-             @auth
+            @auth
                 <span class=" text-dark text-center mx-5">{{ $user->name }}</span>
             @endauth
             @auth
-            {{-- دکمه همبرگری (فقط اگر کاربر لاگین باشد) --}}
+                {{-- دکمه همبرگری (فقط اگر کاربر لاگین باشد) --}}
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
                     aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -120,8 +125,9 @@
     <div class="container">
         @yield('content')
     </div>
+    <script src="{{ asset('js/amount-handler.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </html>

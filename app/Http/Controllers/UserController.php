@@ -37,22 +37,19 @@ class UserController extends Controller
             $loan = $user->loans->first();
 
             $payments = $loan->loanPayments()
-            ->whereMonth('payment_date', Carbon::now()->month)
-            ->whereYear('payment_date', Carbon::now()->year)
-            ->get();
-
+                ->whereMonth('due_date', Carbon::now()->month)
+                ->whereYear('due_date', Carbon::now()->year)
+                ->get();
         }
 
-        $investments = Investment::where('user_id', $userId)->first();
 
         $familyMembers = User::where('family_id', $familyId)
-            ->withSum('investments', 'amount')
             ->with('point')
             ->get();
 
         $point = Point::where('user_id', $userId)->first();
-
-        return view('users.profile', compact('loan', 'user', 'familyMembers', 'payments', 'investments', 'point'));
+      
+        return view('users.profile', compact('loan', 'user', 'familyMembers', 'payments', 'point'));
     }
 
     public function index()
@@ -74,17 +71,29 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
             'family_id' => 'required|exists:families,id',
+            'amount' => 'required|numeric|min:10000',
+            'point' => 'required|numeric|min:1000',
         ]);
 
-        User::create([
+        // ساخت کاربر
+        $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'family_id' => $validated['family_id'],
+            'total_investment' => $validated['amount'],
         ]);
 
-        return redirect()->route('admin.users.index')->with('success', 'کاربر با موفقیت اضافه شد');
+        // ایجاد امتیاز برای کاربر
+        $user->point()->create([
+            'points' => $validated['point'],
+        ]);
+
+        return redirect()->route('admin.users.index')->with('success', 'کاربر با موفقیت ایجاد شد.');
     }
+
+
+
 
     public function edit(User $user)
     {

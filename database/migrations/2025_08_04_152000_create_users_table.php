@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->integer('total_investment')->default(0);
             $table->string('password');
             $table->foreignId('family_id')->nullable()->constrained()->onDelete('cascade');
             $table->boolean('is_admin')->default(0);

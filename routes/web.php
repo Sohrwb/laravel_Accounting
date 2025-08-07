@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FamilyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InvestmentController;
 use App\Http\Controllers\LoanController;
@@ -51,7 +52,7 @@ Route::group([
 
 });
 Route::get('/investments', [InvestmentController::class, 'index'])->name('investments.index');
-Route::get('/investments/create', [InvestmentController::class, 'create'])->name('investments.create');
+Route::get('/investments/create/{user}', [InvestmentController::class, 'create'])->name('investments.create');
 Route::post('/investments', [InvestmentController::class, 'store'])->name('investments.store');
 
 Route::get('/loans', [LoanController::class, 'index'])->name('loans.index');
@@ -73,7 +74,7 @@ Route::get('/point-transfers', [PointTransferController::class, 'index'])->name(
 Route::post('/loan-payments/{payment}/pay', [LoanPaymentController::class, 'pay'])->name('loan-payments.pay');
 
 
-
+Route::post('family/create',[FamilyController::class,'store'])->name('family.store');
 
 Route::get('/point-transfers/create', [PointTransferController::class, 'create'])->name('point-transfers.create');
 Route::post('/point-transfers', [PointTransferController::class, 'store'])->name('point-transfers.store');

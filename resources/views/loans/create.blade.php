@@ -11,16 +11,14 @@
         <div class="mb-3">
             <label class="form-label">کاربر</label>
             <select class="form-control" name="user_id" required>
-                @foreach($users as $user)
+                @foreach ($users as $user)
                     <option value="{{ $user->id }}">{{ $user->name }}</option>
                 @endforeach
             </select>
         </div>
 
-        <div class="mb-3">
-            <label class="form-label">مبلغ (تومان)</label>
-            <input type="number" class="form-control" name="amount" required>
-        </div>
+        <x-shared.amount-input name="amount" />
+
 
         <div class="mb-3">
             <label class="form-label">تاریخ شروع</label>

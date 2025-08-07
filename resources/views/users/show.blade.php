@@ -10,7 +10,7 @@
             <p><strong>نام:</strong> {{ $user->name }}</p>
             <p><strong>ایمیل:</strong> {{ $user->email }}</p>
             <p><strong>شناسه خانواده:</strong> {{ $user->family_id }}</p>
-            <p><strong>مجموع سرمایه‌گذاری:</strong> {{ number_format($user->investments->sum('amount')) }} تومان</p>
+            <p><strong>مجموع سرمایه‌گذاری:</strong> {{ number_format($user->total_investment) }} تومان</p>
             <p><strong>مقدار امتیاز:</strong> {{ number_format($user->point->points) ?? 0 }}</p>
 
             @if ($user->loans->where('is_paid', false)->count())

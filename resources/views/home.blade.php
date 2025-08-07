@@ -14,9 +14,9 @@
 
         @auth
             <div class="text-center">
-                <h4 class="mb-3">سلام {{ auth()->user()->name }} 👋</h4>
+                <h4 class="mb-3">سلام {{ $user->name }} 👋</h4>
                 <a href="{{ route('profile') }}" class="btn btn-primary m-2">مشاهده پروفایل</a>
-                <a href="{{ route('investments.create') }}" class="btn btn-success m-2">افزایش سرمایه</a>
+                <a href="{{ route('investments.create', $user) }}" class="btn btn-success m-2">افزایش سرمایه</a>
                 @if (auth()->user()->loans()->exists())
                     <div class="table-responsive">
                         <table class="table table-sm table-bordered text-center align-middle">

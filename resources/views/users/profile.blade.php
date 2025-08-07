@@ -32,6 +32,10 @@
                                         <span class="text-danger fw-bold">در حال پرداخت</span>
                                     @endif
                                 </li>
+                                <li>
+                                    <a href="{{ route('loans.show', $loan) }}" class="btn btn-success mt-3"> مشاهده وام
+                                    </a>
+                                </li>
                             </ul>
 
                             {{-- لیست اقساط --}}
@@ -109,7 +113,7 @@
                         @else
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item d-flex justify-content-between align-items-center bg-light">
-                                    <strong> سرمایه من:</strong> {{ number_format($investments->amount) }} تومان
+                                    <strong> سرمایه من:</strong> {{ number_format($user->total_investment) }} تومان
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center bg-light">
                                     <strong> امتیاز من:</strong> {{ number_format($point->points) }}
@@ -120,21 +124,23 @@
 
                             @foreach ($familyMembers as $member)
                                 @php
-                                    $investmentAmount = $member->investments_sum_amount ?? 0;
-                                    $points = $member->points->points ?? 0;
+                                    $point = $member->point->points ?? 0;
+
                                 @endphp
 
                                 <div class="border rounded p-2 mb-2">
                                     <div class="d-flex justify-content-between align-items-center mb-1">
                                         <strong>{{ $member->name }}</strong>
-                                        <form action="#" method="POST" class="m-0">
+                                       
+                                        <form action="{{ route('investments.create', $member) }}" method="get"
+                                            class="m-0">
                                             @csrf
                                             <button class="btn btn-sm btn-outline-primary">پرداخت</button>
                                         </form>
                                     </div>
                                     <div class="text-muted small">
-                                        سرمایه: {{ number_format($investmentAmount) }} تومان |
-                                        امتیاز: {{ $points }}
+                                        سرمایه: {{ number_format($member->total_investment) }} تومان |
+                                        امتیاز: {{ $point }}
                                     </div>
                                 </div>
                             @endforeach
@@ -178,8 +184,8 @@
                                     </div>
 
                                     <div class="text-muted small mb-2">
-                                        سرمایه: {{ number_format($investmentAmount) }} تومان |
-                                        امتیاز: {{ number_format($points) }}
+                                        سرمایه: {{ number_format($member->total_investment) }} تومان |
+                                        امتیاز: {{ number_format($point) }}
                                     </div>
 
                                     @if ($hasLoan && $currentMonthPayment)

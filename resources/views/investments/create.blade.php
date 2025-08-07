@@ -4,7 +4,41 @@
 
 @section('content')
     <h3>ثبت سرمایه‌گذاری جدید</h3>
+
     <style>
+        .user-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .user-label {
+            padding: 10px 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            text-align: center;
+            min-width: 120px;
+            transition: 0.2s;
+        }
+
+        .user-label:hover {
+            background-color: #f1f1f1;
+        }
+
+        input[type="radio"][name="user_id"] {
+            display: none;
+        }
+
+        input[type="radio"][name="user_id"]:checked+.user-label {
+            background-color: #0d6efd;
+            color: white;
+            border-color: #0d6efd;
+        }
+
         .month-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -20,45 +54,63 @@
             font-size: 14px;
             border: 1px solid #ccc;
             border-radius: 6px;
-            cursor: pointer;
-            transition: 0.2s;
+            cursor: default;
         }
 
-        .month-label:hover {
-            background: #f8f9fa;
-        }
-
-        input[type="radio"] {
+        input[type="radio"][name="month"] {
             display: none;
         }
 
-        input[type="radio"]:checked+.month-label {
+        input[type="radio"][name="month"]:checked+.month-label {
             background-color: #0d6efd;
             color: white;
             border-color: #0d6efd;
         }
-    </style>
 
+        input[type="radio"][name="month"]:disabled+.month-label {
+            background-color: #e9ecef;
+            color: #999;
+            border-color: #ddd;
+        }
+
+        .paid-info {
+            text-align: center;
+            font-size: 18px;
+            color: #198754;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+    </style>
 
     <form method="POST" action="{{ route('investments.store') }}">
         @csrf
 
-        <div class="mb-3">
-            <label for="user_id" class="form-label">کاربر</label>
-            <select class="form-control" name="user_id" required>
-                @foreach ($users as $user)
-                    <option value="{{ $user->id }}">{{ $user->name }} ({{ $user->email }})</option>
-                @endforeach
-            </select>
+        {{-- انتخاب اعضای خانواده به صورت دکمه --}}
+        <div class="user-grid">
+            @foreach ($users as $user)
+                <label>
+                    <input type="radio" name="user_id" value="{{ $user->id }}" {{ $loop->first ? 'checked' : '' }}>
+                    <div class="user-label">{{ $user->name }}</div>
+                </label>
+            @endforeach
         </div>
 
-        <div class="mb-3">
-            <label for="amount" class="form-label">مبلغ (تومان)</label>
-            <input type="number" class="form-control" name="amount" required>
-        </div>
+        @php
+            $firstUser = $users->first();
+            $total = $firstUser && isset($investments[$firstUser->id]) ? $investments[$firstUser->id] : null;
+        @endphp
+
+        @if ($total)
+            <div class="paid-info">
+                {{ $firstUser->name }} در این ماه {{ number_format($total) }} تومان پرداخت کرده است
+            </div>
+        @endif
 
 
+        {{-- ورودی مبلغ --}}
+        <x-shared.amount-input name="amount" />
 
+        {{-- ماه جاری فقط قابل انتخاب (غیرفعال کردن بقیه) --}}
         <div class="month-grid">
             @php
                 $months = [
@@ -79,16 +131,14 @@
 
             @foreach ($months as $num => $name)
                 <label>
-                    <input type="radio" name="month" value="{{ $num }}" id="month-{{ $num }}">
+                    <input type="radio" name="month" value="{{ $num }}" id="month-{{ $num }}"
+                        {{ $num == $currentMonth ? 'checked' : 'disabled' }}>
                     <div class="month-label">{{ $name }}</div>
                 </label>
             @endforeach
         </div>
 
         <br>
-
-
-
 
         <button type="submit" class="btn btn-primary">ذخیره</button>
     </form>
