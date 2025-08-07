@@ -79,32 +79,61 @@
             color: #198754;
             margin-bottom: 15px;
             font-weight: bold;
+
+        }
+
+        .user-label {
+            padding: 10px 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            text-align: center;
+            min-width: 120px;
+            transition: 0.2s;
+            text-decoration: none;
+            color: #000;
+        }
+
+        .user-label:hover {
+            background-color: #f1f1f1;
+        }
+
+        .user-label.active {
+            background-color: #0d6efd;
+            color: white;
+            border-color: #0d6efd;
         }
     </style>
 
     <form method="POST" action="{{ route('investments.store') }}">
         @csrf
 
-        {{-- انتخاب اعضای خانواده به صورت دکمه --}}
+        <input type="hidden" name="user_id" value="{{ $selectedUserId }}">
+
+        {{-- انتخاب اعضای خانواده به صورت دکمه لینک‌دار --}}
         <div class="user-grid">
             @foreach ($users as $user)
-                <label>
-                    <input type="radio" name="user_id" value="{{ $user->id }}" {{ $loop->first ? 'checked' : '' }}>
-                    <div class="user-label">{{ $user->name }}</div>
-                </label>
+                <a href="{{ route('investments.create', ['user' => $user->id]) }}"
+                    class="user-label {{ $user->id == $selectedUserId ? 'active' : '' }}">
+                    {{ $user->name }}
+                </a>
             @endforeach
         </div>
 
         @php
-            $firstUser = $users->first();
-            $total = $firstUser && isset($investments[$firstUser->id]) ? $investments[$firstUser->id] : null;
+            $selectedUserId = $selectedUserId ?? null;
+            $total = isset($selectedUserId, $investments[$selectedUserId]) ? $investments[$selectedUserId] : null;
+            $selectedUser = $users->firstWhere('id', $selectedUserId);
         @endphp
+
 
         @if ($total)
             <div class="paid-info">
-                {{ $firstUser->name }} در این ماه {{ number_format($total) }} تومان پرداخت کرده است
+                {{ $selectedUser->name }} در این ماه {{ number_format($total) }} تومان پرداخت کرده است
             </div>
         @endif
+
 
 
         {{-- ورودی مبلغ --}}
@@ -128,6 +157,8 @@
                     12 => 'اسفند',
                 ];
             @endphp
+
+
 
             @foreach ($months as $num => $name)
                 <label>

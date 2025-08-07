@@ -131,7 +131,7 @@
                                 <div class="border rounded p-2 mb-2">
                                     <div class="d-flex justify-content-between align-items-center mb-1">
                                         <strong>{{ $member->name }}</strong>
-                                       
+
                                         <form action="{{ route('investments.create', $member) }}" method="get"
                                             class="m-0">
                                             @csrf
@@ -161,8 +161,8 @@
                         @else
                             @foreach ($familyMembers as $member)
                                 @php
-                                    $investmentAmount = $member->investments_sum_amount ?? 0;
-                                    $points = $member->points->points ?? 0;
+                                    $investmentAmount = $member->total_investments ?? 0;
+                                    $point = $member->point->points ?? 0;
 
                                     $currentMonthPayment = $member->loans
                                         ->flatMap(fn($loan) => $loan->payments)
@@ -187,28 +187,31 @@
                                         سرمایه: {{ number_format($member->total_investment) }} تومان |
                                         امتیاز: {{ number_format($point) }}
                                     </div>
-
-                                    @if ($hasLoan && $currentMonthPayment)
-                                        <div class="alert alert-warning p-2 mb-0 text-center">
-                                            <div class="small mb-1">
-                                                <strong>قسط این ماه:</strong>
-                                                {{ number_format($currentMonthPayment->amount) }} تومان
+                                    @if ($hasLoan)
+                                        @if ($hasLoan && $currentMonthPayment)
+                                            <div class="alert alert-warning p-2 mb-0 text-center">
+                                                <div class="small mb-1">
+                                                    <strong>قسط این ماه:</strong>
+                                                    {{ number_format($currentMonthPayment->amount) }} تومان
+                                                </div>
+                                                <div class="small mb-2">
+                                                    سررسید:
+                                                    {{ Jalalian::fromDateTime($currentMonthPayment->due_date)->format('Y/m/d') }}
+                                                </div>
+                                                <form action="#" method="POST" class="m-0">
+                                                    @csrf
+                                                    <button class="btn btn-sm btn-primary">پرداخت قسط</button>
+                                                </form>
                                             </div>
-                                            <div class="small mb-2">
-                                                سررسید:
-                                                {{ Jalalian::fromDateTime($currentMonthPayment->due_date)->format('Y/m/d') }}
-                                            </div>
-                                            <form action="#" method="POST" class="m-0">
-                                                @csrf
-                                                <button class="btn btn-sm btn-primary">پرداخت قسط</button>
-                                            </form>
-                                        </div>
-                                    @else
+                                        @endif
+                                        <p class="bg-warning rounded"> وام دارد </ح>
+                                        @else
                                         <form action="#" method="POST" class="m-0">
                                             @csrf
                                             <button class="btn btn-sm btn-success w-100">انتقال امتیاز</button>
                                         </form>
                                     @endif
+
                                 </div>
                             @endforeach
                         @endif

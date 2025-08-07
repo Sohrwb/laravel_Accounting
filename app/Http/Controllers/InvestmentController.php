@@ -21,40 +21,53 @@ class InvestmentController extends Controller
 
     public function create(User $user)
     {
-        $users = User::where('family_id', $user->family_id)->get(); // یا هر محدودیتی که داری
-
-        $currentMonth = Jalalian::now()->getMonth(); // عدد ماه شمسی فعلی
-
-        // تمام سرمایه‌گذاری‌های ماه فعلی
         $currentMonth = now()->month;
+        $users = User::where('family_id', $user->family_id)->get();
 
-// جمع مبلغ پرداخت‌شده برای هر کاربر در ماه جاری
-$investments = Investment::where('month', $currentMonth)
-    ->select('user_id', DB::raw('SUM(amount) as total_amount'))
-    ->groupBy('user_id')
-    ->pluck('total_amount', 'user_id'); // خروجی: [user_id => total_amount]
-// کلیدها بر اساس user_id برای دسترسی سریع
+        $investments = Investment::where('month', $currentMonth)
+            ->select('user_id', DB::raw('SUM(amount) as total_amount'))
+            ->groupBy('user_id')
+            ->pluck('total_amount', 'user_id');
 
-        return view('investments.create', compact('users', 'currentMonth', 'investments'));
+        $selectedUserId = $user->id;
+
+        return view('investments.create', compact(
+            'users',
+            'investments',
+            'currentMonth',
+            'selectedUserId'
+        ));
     }
+
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'amount' => 'required|numeric|min:1000',
-            'month' => 'required',
+        $validated = $request->validate([
+            'user_id' => ['required', 'exists:users,id'],
+            'amount' => ['required', 'numeric', 'min:1000'],
+            'month'  => ['required', 'integer', 'between:1,12'],
         ]);
 
-        Investment::create($data);
+        // 1. ثبت سرمایه‌گذاری
+        $investment = Investment::create([
+            'user_id' => $validated['user_id'],
+            'amount' => $validated['amount'],
+            'month' => $validated['month'],
+        ]);
 
+        // 2. افزایش total_investment کاربر
+        $user = User::find($validated['user_id']);
+        $user->increment('total_investment', $validated['amount']);
+
+        // 3. ثبت تراکنش
         Transaction::create([
-            'user_id' => $data['user_id'],
-            'amount' => $data['amount'],
+            'user_id' => $validated['user_id'],
+            'amount' => $validated['amount'],
             'type' => 'investment',
             'date' => now(),
         ]);
 
-        return redirect()->back();
+
+        return redirect()->back()->with('success', 'سرمایه‌گذاری با موفقیت ثبت شد');
     }
 }
