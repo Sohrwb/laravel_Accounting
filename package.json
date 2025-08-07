@@ -15,6 +15,7 @@
         "vite": "^7.0.4"
     },
     "dependencies": {
-        "persian-datepicker": "^0.5.11"
+        "persian-datepicker": "^0.5.11",
+        "react-multi-date-picker": "^4.5.2"
     }
 }

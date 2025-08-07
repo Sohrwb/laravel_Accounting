@@ -14,6 +14,12 @@ class TransactionController extends Controller
         return view('transactions.index', compact('transactions'));
     }
 
+    public function show(User $user)
+    {
+        $transactions = Transaction::where('user_id', $user->id)->get();
+        return view('transactions.show', compact('transactions'));
+    }
+
     public function create()
     {
         $users = User::all();

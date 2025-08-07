@@ -47,13 +47,11 @@ Route::group([
     Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
     Route::resource('users', UserController::class);
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
-
-
-
 });
 Route::get('/investments', [InvestmentController::class, 'index'])->name('investments.index');
 Route::get('/investments/create/{user}', [InvestmentController::class, 'create'])->name('investments.create');
 Route::post('/investments', [InvestmentController::class, 'store'])->name('investments.store');
+Route::get('/investments/show/{user}', [InvestmentController::class, 'show'])->name('investments.show');
 
 Route::get('/loans', [LoanController::class, 'index'])->name('loans.index');
 Route::get('/loans/create', [LoanController::class, 'create'])->name('loans.create');
@@ -74,12 +72,14 @@ Route::get('/point-transfers', [PointTransferController::class, 'index'])->name(
 Route::post('/loan-payments/{payment}/pay', [LoanPaymentController::class, 'pay'])->name('loan-payments.pay');
 
 
-Route::post('family/create',[FamilyController::class,'store'])->name('family.store');
+Route::post('family/create', [FamilyController::class, 'store'])->name('family.store');
+Route::post('family/{user}', [FamilyController::class, 'show'])->name('family.show');
 
 Route::get('/point-transfers/create', [PointTransferController::class, 'create'])->name('point-transfers.create');
 Route::post('/point-transfers', [PointTransferController::class, 'store'])->name('point-transfers.store');
 
 Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+Route::get('/transactions/show/{user}', [TransactionController::class, 'show'])->name('transactions.show');
 Route::get('/transactions/create', [TransactionController::class, 'create'])->name('transactions.create');
 Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
 Route::get('/transactions/user/{user_id}', [TransactionController::class, 'userTransactions'])->name('transactions.user');

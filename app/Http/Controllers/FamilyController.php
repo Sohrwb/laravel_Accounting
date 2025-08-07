@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Family;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class FamilyController extends Controller
@@ -18,5 +19,9 @@ class FamilyController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'با موفقیت خانواده جدید ایجاد شد');
+    }
+
+    public function show(User $user){
+ return redirect()->route('login');
     }
 }

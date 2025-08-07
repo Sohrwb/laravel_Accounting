@@ -111,7 +111,10 @@
                                 هیچ عضوی برای این خانواده ثبت نشده است.
                             </div>
                         @else
-                            <ul class="list-group list-group-flush">
+                            <ul class="list-group list-group-flush ">
+                                <a class="btn btn-outline-primary " href="{{ route('investments.show', $user) }}">لیست
+                                    سرمایه های
+                                    من</a>
                                 <li class="list-group-item d-flex justify-content-between align-items-center bg-light">
                                     <strong> سرمایه من:</strong> {{ number_format($user->total_investment) }} تومان
                                 </li>
@@ -177,10 +180,7 @@
                                 <div class="border rounded p-2 mb-3">
                                     <div class="d-flex justify-content-between align-items-center mb-1">
                                         <strong>{{ $member->name }}</strong>
-                                        <form action="#" method="POST" class="m-0">
-                                            @csrf
-                                            <button class="btn btn-sm btn-outline-secondary">ورود</button>
-                                        </form>
+                                      
                                     </div>
 
                                     <div class="text-muted small mb-2">

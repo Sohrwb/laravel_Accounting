@@ -39,6 +39,12 @@ class InvestmentController extends Controller
         ));
     }
 
+    public function show(User $user)
+    {
+        $investments = Investment::where('user_id', $user->id)->get();
+        return view('investments.show', compact('investments'));
+    }
+
 
     public function store(Request $request)
     {
