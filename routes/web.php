@@ -83,3 +83,9 @@ Route::get('/transactions/show/{user}', [TransactionController::class, 'show'])-
 Route::get('/transactions/create', [TransactionController::class, 'create'])->name('transactions.create');
 Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
 Route::get('/transactions/user/{user_id}', [TransactionController::class, 'userTransactions'])->name('transactions.user');
+
+
+
+Route::get('/test', function () {
+    return view('test');
+});

@@ -19,12 +19,11 @@
 
         <x-shared.amount-input name="amount" />
 
-
         <div class="mb-3">
             <label class="form-label">تاریخ شروع</label>
-            <input type="date" class="form-control" name="start_date" required>
-        </div>
+            <div id="react-datepicker-root"></div>
 
+        </div>
 
         <div class="mb-3">
             <label class="form-label">تعداد اقساط</label>
@@ -33,4 +32,8 @@
 
         <button type="submit" class="btn btn-primary">ثبت وام</button>
     </form>
+@endsection
+
+@section('scripts')
+    @vite('resources/js/app.jsx')
 @endsection

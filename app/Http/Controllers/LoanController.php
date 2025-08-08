@@ -24,12 +24,14 @@ class LoanController extends Controller
 
     public function store(Request $request)
     {
+
         $request->validate([
             'amount' => 'required|integer|min:100000',
             'installments_count' => 'required|integer|min:1',
             'start_date' => 'required|date',
             'user_id' => 'required|exists:users,id',
         ]);
+
 
         // محاسبه تاریخ پایان
         $endDate = \Carbon\Carbon::parse($request->start_date)->addMonths($request->installments_count - 1);

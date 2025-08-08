@@ -8,6 +8,9 @@
     <title>@yield('title', 'سیستم حسابداری')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
+
+    @viteReactRefresh
+    @vite(['resources/js/app.jsx'])
 </head>
 
 
