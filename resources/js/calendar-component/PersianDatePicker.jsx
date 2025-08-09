@@ -4,7 +4,7 @@ import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import jalaali from "jalaali-js";
 
-export default function PersianDatePicker({ inputName = "start_date" }) {
+export default function PersianDatePicker({ inputName = "date" }) {
     const [value, setValue] = useState(null);
     const [gregorianValue, setGregorianValue] = useState("");
 
@@ -59,7 +59,8 @@ export default function PersianDatePicker({ inputName = "start_date" }) {
                 inputClass="form-control"
                 placeholder="تاریخ را انتخاب کنید"
             />
-            <input type="hidden" name={inputName} value={gregorianValue} />
+            <input type="hidden" name="date" value={gregorianValue} />
         </>
     );
+    
 }

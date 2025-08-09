@@ -25,6 +25,7 @@ class LoanPaymentController extends Controller
 
     public function pay(LoanPayment $payment)
     {
+        
         if ($payment->is_paid) {
             return back()->with('warning', 'این قسط قبلاً پرداخت شده است.');
         }

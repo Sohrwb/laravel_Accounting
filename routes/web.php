@@ -10,6 +10,7 @@ use App\Http\Controllers\PointController;
 use App\Http\Controllers\PointTransferController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminMonthlyReportController;
 
 
 
@@ -47,7 +48,13 @@ Route::group([
     Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
     Route::resource('users', UserController::class);
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+    Route::get('/months', [AdminMonthlyReportController::class, 'index'])->name('months.index');
+    Route::get('/months/{month}', [AdminMonthlyReportController::class, 'show'])->name('months.show');
 });
+
+
+
+
 Route::get('/investments', [InvestmentController::class, 'index'])->name('investments.index');
 Route::get('/investments/create/{user}', [InvestmentController::class, 'create'])->name('investments.create');
 Route::post('/investments', [InvestmentController::class, 'store'])->name('investments.store');

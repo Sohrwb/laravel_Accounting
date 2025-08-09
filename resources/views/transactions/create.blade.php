@@ -11,15 +11,18 @@
         <div class="mb-3">
             <label class="form-label">کاربر</label>
             <select name="user_id" class="form-control" required>
-                @foreach($users as $user)
+                @foreach ($users as $user)
                     <option value="{{ $user->id }}">{{ $user->name }}</option>
                 @endforeach
             </select>
         </div>
 
+        <x-shared.amount-input name="amount" />
+
         <div class="mb-3">
-            <label class="form-label">مقدار (تومان)</label>
-            <input type="number" name="amount" class="form-control" required>
+            <label class="form-label">تاریخ پرداخت</label>
+            <div id="react-datepicker-root" ></div>
+
         </div>
 
         <div class="mb-3">

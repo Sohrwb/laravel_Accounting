@@ -180,7 +180,7 @@
                                 <div class="border rounded p-2 mb-3">
                                     <div class="d-flex justify-content-between align-items-center mb-1">
                                         <strong>{{ $member->name }}</strong>
-                                      
+
                                     </div>
 
                                     <div class="text-muted small mb-2">
@@ -198,7 +198,8 @@
                                                     سررسید:
                                                     {{ Jalalian::fromDateTime($currentMonthPayment->due_date)->format('Y/m/d') }}
                                                 </div>
-                                                <form action="#" method="POST" class="m-0">
+                                                <form action="{{ route('loan-payments.pay', $currentMonthPayment) }}"
+                                                    method="POST" class="m-0">
                                                     @csrf
                                                     <button class="btn btn-sm btn-primary">پرداخت قسط</button>
                                                 </form>

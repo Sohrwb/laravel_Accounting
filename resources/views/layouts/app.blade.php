@@ -49,14 +49,20 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         @if (auth()->user()->is_admin)
                             <li class="nav-item">
+                                <a class="nav-link btn btn-danger border m-1" href="{{ route('admin.months.index') }}"> لیست
+                                    ماه ها</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link btn btn-danger border m-1" href="{{ route('admin.users.index') }}"> لیست
                                     کاربران</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link btn btn-danger border m-1" href="#"> لیست وام ها </a>
+                                <a class="nav-link btn btn-danger border m-1" href="{{ route('loans.index') }}"> لیست وام ها
+                                </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link btn btn-success border m-1" href="#">لیست تراکنش ها</a>
+                                <a class="nav-link btn btn-success border m-1" href="{{ route('transactions.index') }}">لیست
+                                    تراکنش ها</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link btn btn-dark border m-1" href="#"> پرداخت دستی</a>

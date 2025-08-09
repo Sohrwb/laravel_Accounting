@@ -28,6 +28,7 @@ class TransactionController extends Controller
 
     public function store(Request $request)
     {
+       
         $data = $request->validate([
             'user_id' => 'required|exists:users,id',
             'amount' => 'required|numeric',
