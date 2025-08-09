@@ -1,18 +1,25 @@
 <?php
 
-
-namespace Database\Seeders;
+namespace Database\Factories;
 
 use App\Models\Point;
-use Illuminate\Database\Seeder;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-class PointsTableSeeder extends Seeder
+class PointFactory extends Factory
 {
-    public function run()
+    protected $model = Point::class;
+
+    public function definition()
     {
-        Point::create([
-            'user_id' => 1,
-            'points' => 1250000 // 2.5 برابر سرمایه بالا
-        ]);
+        $user = User::inRandomOrder()->first() ?? User::factory()->create();
+
+        // محاسبه مجموع سرمایه کاربر
+        $totalInvestment = $user->investments()->sum('amount');
+
+        return [
+            'user_id' => $user->id,
+            'points' => $totalInvestment * 2.5,
+        ];
     }
 }

@@ -15,13 +15,14 @@
 
 
 
-<body dir="rtl" class="bg-light">
+
+<body dir="rtl" class="bg-light" style="padding-top: 70px;">
 
     @php
         $user = auth()->user();
     @endphp
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm fixed-top">
         <div class="container">
             {{-- لوگو --}}
             <a class="navbar-brand ms-auto" href="{{ route('home') }}">بانک من</a>
@@ -43,6 +44,9 @@
                 @auth
 
                 @endauth
+
+
+
 
                 <div class="collapse navbar-collapse" id="navbarContent">
                     {{-- لینک‌ها --}}

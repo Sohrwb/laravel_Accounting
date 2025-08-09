@@ -20,7 +20,11 @@
         </thead>
         <tbody>
             @foreach ($transactions as $tx)
-                <tr>
+                <tr
+                    @if ($tx->type == 'investment') class="table-primary"
+    @elseif($tx->type == 'loan_payment')
+        class="table-danger" @endif>
+                
                     <td>{{ number_format($tx->amount) }}</td>
                     <td>
                         @if ($tx->type == 'investment')
