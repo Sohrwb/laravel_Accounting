@@ -5,6 +5,14 @@
 @section('content')
     <h3>ثبت وام جدید</h3>
 
+    <style>
+        select.form-control option {
+            color: black !important;
+            background-color: white !important;
+        }
+    </style>
+
+
     <form method="POST" action="{{ route('loans.store') }}">
         @csrf
 
@@ -31,6 +39,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary">ثبت وام</button>
+
     </form>
 @endsection
 

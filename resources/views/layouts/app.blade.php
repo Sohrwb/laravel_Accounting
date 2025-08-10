@@ -11,12 +11,16 @@
 
     @viteReactRefresh
     @vite(['resources/js/app.jsx'])
+
+
 </head>
 
 
 
 
 <body dir="rtl" class="bg-light" style="padding-top: 70px;">
+
+
 
     @php
         $user = auth()->user();
@@ -77,14 +81,15 @@
                                     من</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link btn btn-danger border m-1" href="#">خانواده من</a>
+                                <a class="nav-link btn btn-danger border m-1" href="{{route("family.show",$user)}}">خانواده من</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link btn btn-success border m-1"
                                     href="{{ route('transactions.show', $user) }}">تراکنش‌های من</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link btn btn-dark border m-1" href="#">وام من</a>
+                                <a class="nav-link btn btn-dark border m-1" href="{{ route('loans.my') }}">وام
+                                    من</a>
                             </li>
                         @endif
                     </ul>

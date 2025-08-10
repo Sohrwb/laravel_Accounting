@@ -18,17 +18,16 @@ class TransactionFactory extends Factory
 
         if ($type === 'loan_payment') {
             $loan = \App\Models\Loan::inRandomOrder()->first();
-            $loanId = $loan->id;
+            $loanId = $loan?->id; // با ? می‌گه اگر null بود ارور نده
         }
 
         return [
             'user_id' => \App\Models\User::inRandomOrder()->first()->id,
             'type' => $type,
             'amount' => $this->faker->numberBetween(100000, 1000000),
-            'date' => $this->faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d'),
+            'date' => $this->faker->date(),
             'loan_id' => $loanId,
-            'created_at' => now(),
-            'updated_at' => now(),
         ];
+
     }
 }

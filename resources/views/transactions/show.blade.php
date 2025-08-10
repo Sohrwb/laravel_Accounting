@@ -30,7 +30,7 @@
     </select>
 
     <button type="submit" class="btn btn-primary">اعمال فیلتر</button>
-    <a href="{{ route('transactions.index') }}" class="btn btn-secondary">ریست</a>
+    <a href="{{ route('transactions.show',Auth::user()) }}" class="btn btn-secondary">ریست</a>
 </form>
 
 <table class="table table-bordered">
@@ -55,7 +55,7 @@
                         {{ $tx->type }}
                     @endif
                 </td>
-                <td>{{ Jalalian::fromDateTime($tx->created_at)->format('Y/m/d') }}</td>
+                <td>{{ Jalalian::fromDateTime($tx->date)->format('Y/m/d') }}</td>
             </tr>
         @endforeach
     </tbody>

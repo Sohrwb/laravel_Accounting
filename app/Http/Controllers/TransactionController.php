@@ -12,8 +12,8 @@ class TransactionController extends Controller
     // تبدیل اعداد فارسی به انگلیسی
     private function convertFaNumToEn($string)
     {
-        $faNums = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
-        $enNums = ['0','1','2','3','4','5','6','7','8','9'];
+        $faNums = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+        $enNums = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
         return str_replace($faNums, $enNums, $string);
     }
 
@@ -81,9 +81,11 @@ class TransactionController extends Controller
         return view('transactions.index', compact('transactions'));
     }
 
-    public function show(Request $request)
+    public function show(Request $request, User $user)
     {
+
         $query = Transaction::query();
+        $query->where('user_id', $user->id);
 
         // فیلتر بر اساس نوع تراکنش
         if ($filter = $request->input('filter_type')) {
@@ -107,7 +109,6 @@ class TransactionController extends Controller
             default:
                 $query->orderBy('date', 'desc');
         }
-
         $transactions = $query->get();
 
         return view('transactions.show', compact('transactions'));

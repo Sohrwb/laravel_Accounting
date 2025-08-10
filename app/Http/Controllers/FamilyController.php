@@ -21,7 +21,10 @@ class FamilyController extends Controller
         return redirect()->back()->with('success', 'با موفقیت خانواده جدید ایجاد شد');
     }
 
-    public function show(User $user){
- return redirect()->route('login');
+    public function show(User $user)
+    {
+        $users = User::where('family_id', $user->family_id)->get();
+
+        return view('family.show', compact('users'));
     }
 }

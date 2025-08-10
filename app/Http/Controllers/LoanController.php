@@ -7,6 +7,7 @@ use App\Models\LoanPayment;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoanController extends Controller
 {
@@ -22,13 +23,20 @@ class LoanController extends Controller
         return view('loans.create', compact('users'));
     }
 
+    public function myLoans()
+    {
+        $loans = Auth::user()->loans;
+
+        return view('loans.myLoans', compact('loans'));
+    }
+
     public function store(Request $request)
     {
 
         $request->validate([
             'amount' => 'required|integer|min:100000',
             'installments_count' => 'required|integer|min:1',
-            'start_date' => 'required|date',
+            'date' => 'required|date',
             'user_id' => 'required|exists:users,id',
         ]);
 
@@ -41,7 +49,7 @@ class LoanController extends Controller
             'user_id' => $request->user_id,
             'amount' => $request->amount,
             'installments_count' => $request->installments_count,
-            'start_date' => $request->start_date,
+            'start_date' => $request->date,
             'end_date' => $endDate,
             'is_paid' => false,
             'remaining_amount' => $request->amount

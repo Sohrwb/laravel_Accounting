@@ -11,9 +11,7 @@ use App\Http\Controllers\PointTransferController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminMonthlyReportController;
-
-
-
+use App\Models\User;
 
 //-----------------------------------------[ auth  ]-----------------------------------------------
 Route::get('/', [AuthController::class, 'home'])->name('home');
@@ -64,6 +62,7 @@ Route::get('/loans', [LoanController::class, 'index'])->name('loans.index');
 Route::get('/loans/create', [LoanController::class, 'create'])->name('loans.create');
 Route::post('/loans', [LoanController::class, 'store'])->name('loans.store');
 Route::get('/loans/{loan}', [LoanController::class, 'show'])->name('loans.show');
+Route::get('/my-loans', [LoanController::class, 'myLoans'])->name('loans.my');
 
 Route::get('/points', [PointController::class, 'index'])->name('points.index');
 Route::get('/points/{id}/edit', [PointController::class, 'edit'])->name('points.edit');
@@ -80,7 +79,7 @@ Route::post('/loan-payments/{payment}/pay', [LoanPaymentController::class, 'pay'
 
 
 Route::post('family/create', [FamilyController::class, 'store'])->name('family.store');
-Route::post('family/{user}', [FamilyController::class, 'show'])->name('family.show');
+Route::get('family/{user}', [FamilyController::class, 'show'])->name('family.show');
 
 Route::get('/point-transfers/create', [PointTransferController::class, 'create'])->name('point-transfers.create');
 Route::post('/point-transfers', [PointTransferController::class, 'store'])->name('point-transfers.store');
@@ -94,5 +93,6 @@ Route::get('/transactions/user/{user_id}', [TransactionController::class, 'userT
 
 
 Route::get('/test', function () {
-    return view('test');
+    $users =User::all();
+    return view('test' , compact('users'));
 });

@@ -90,7 +90,7 @@
                                 </div>
                             @endif
 
-                            <a href="{{ route('loans.index') }}" class="btn btn-success w-100 mt-3">بازگشت به لیست
+                            <a href="{{ route('loans.my') }}" class="btn btn-success w-100 mt-3">بازگشت به لیست
                                 وام‌ها</a>
                         @else
                             <a href="{{ route('loans.index') }}" class="btn btn-success w-100 mt-3"> درخواست وام‌</a>
