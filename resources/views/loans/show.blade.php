@@ -61,5 +61,5 @@
         </table>
     @endif
 
-    <a href="{{ route('loans.index') }}" class="btn btn-secondary mt-3">بازگشت به لیست وام‌ها</a>
+    <a href="{{ route('profile') }}" class="btn btn-secondary mt-3">بازگشت به پروفایل</a>
 @endsection

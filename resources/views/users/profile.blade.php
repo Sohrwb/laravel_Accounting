@@ -92,8 +92,6 @@
 
                             <a href="{{ route('loans.my') }}" class="btn btn-success w-100 mt-3">بازگشت به لیست
                                 وام‌ها</a>
-                        @else
-                            <a href="{{ route('loans.index') }}" class="btn btn-success w-100 mt-3"> درخواست وام‌</a>
                         @endif
                     </div>
                 </div>
@@ -206,11 +204,6 @@
                                             </div>
                                         @endif
                                         <p class="bg-warning rounded"> وام دارد </ح>
-                                        @else
-                                        <form action="#" method="POST" class="m-0">
-                                            @csrf
-                                            <button class="btn btn-sm btn-success w-100">انتقال امتیاز</button>
-                                        </form>
                                     @endif
 
                                 </div>

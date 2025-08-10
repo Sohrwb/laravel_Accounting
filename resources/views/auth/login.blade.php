@@ -9,7 +9,6 @@
                     <div class="card-body">
                         <form action="{{ route('login') }}" method="POST">
                             @csrf
-
                             <div class="mb-3">
                                 <label for="email" class="form-label">ایمیل</label>
                                 <input type="email" name="email" id="email" class="form-control" required>

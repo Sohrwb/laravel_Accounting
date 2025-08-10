@@ -40,7 +40,6 @@ class AuthController extends Controller
         return redirect()->route('login')->with('success', 'ثبت‌نام با موفقیت انجام شد. لطفاً وارد شوید.');
     }
 
-
     //-----------------------------------------[  نمایش فرم ورود  ]-----------------------------------------------
 
     public function showLoginForm()
@@ -55,7 +54,7 @@ class AuthController extends Controller
         if (auth::user()) {
 
             $user = Auth::user();
-         
+
             if ($user->loans->first()) {
                 $loan = $user->loans->first();
                 $payments = $loan->loanPayments()
@@ -67,7 +66,6 @@ class AuthController extends Controller
         }
         return view('home');
     }
-
 
     //-----------------------------------------[   پردازش ورود  ]-----------------------------------------------
 
@@ -140,7 +138,6 @@ class AuthController extends Controller
 
         return view('auth.reset', compact('token'));
     }
-
 
     //-----------------------------------------[  تغییر رمز ورود  ]-----------------------------------------------
 

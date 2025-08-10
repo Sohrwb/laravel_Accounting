@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\DB;
 
 class AdminMonthlyReportController extends Controller
 {
+
+//---------------/ ADMIN /--------------------------[  صفحه اصلی ماه ها  ]-----------------------------------------------
+
     public function index()
     {
        $loansByMonth = Loan::select(
@@ -28,7 +31,7 @@ $transactionsByMonth = Transaction::select(
 ->orderBy('month_year', 'desc')
 ->get();
 
-// ادغام با کلید month_year
+
 $combinedData = $transactionsByMonth->map(function ($transaction) use ($loansByMonth) {
     $loan = $loansByMonth->where('month_year', $transaction->month_year)->first();
     return [
@@ -44,6 +47,8 @@ return view('admin.months.index', compact('combinedData'));
 
 
     }
+
+//---------------/ ADMIN /--------------------------[  نمایش جزییات هر ماه  ]-----------------------------------------------
 
     public function show($month)
     {

@@ -5,7 +5,7 @@
 @section('content')
     <h3>وام‌های ثبت‌شده</h3>
 
-    <a href="{{ route('loans.create') }}" class="btn btn-success mb-3">درخواست وام جدید</a>
+    <a href="{{ route('admin.loans.create') }}" class="btn btn-success mb-3">درخواست وام جدید</a>
 
     <table class="table table-bordered">
         <thead>

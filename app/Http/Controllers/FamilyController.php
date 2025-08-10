@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 
 class FamilyController extends Controller
 {
+
+    //----------------/ ADMIN /-------------------------[  ذخیره خانواده جدید  ]-----------------------------------------------
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -20,6 +23,8 @@ class FamilyController extends Controller
 
         return redirect()->back()->with('success', 'با موفقیت خانواده جدید ایجاد شد');
     }
+
+    //-----------------------------------------[  نمایش فرم خانواده من  ]-----------------------------------------------
 
     public function show(User $user)
     {

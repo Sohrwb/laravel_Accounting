@@ -13,7 +13,7 @@
     </style>
 
 
-    <form method="POST" action="{{ route('loans.store') }}">
+    <form method="POST" action="{{ route('admin.loans.store') }}">
         @csrf
 
         <div class="mb-3">

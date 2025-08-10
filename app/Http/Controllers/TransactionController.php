@@ -9,7 +9,8 @@ use Morilog\Jalali\Jalalian;
 
 class TransactionController extends Controller
 {
-    // تبدیل اعداد فارسی به انگلیسی
+    //-----------------------------------------[  تبدیل اعداد فارسی به انگلیسی  ]-----------------------------------------------
+
     private function convertFaNumToEn($string)
     {
         $faNums = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
@@ -17,11 +18,36 @@ class TransactionController extends Controller
         return str_replace($faNums, $enNums, $string);
     }
 
+    //------------------/ ADMIN /-----------------------[  ایجاد تراکنش جدید  ]-----------------------------------------------
+
+    public function create()
+    {
+        $users = User::all();
+        return view('transactions.create', compact('users'));
+    }
+
+    //-------------------/ ADMIN /----------------------[  ذخیره تراکنش  ]-----------------------------------------------
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'amount' => 'required|numeric',
+            'type' => 'required|in:investment,loan_payment',
+            'date' => 'required|date'
+        ]);
+
+        Transaction::create($data);
+
+        return redirect()->route('transactions.index');
+    }
+
+    //------------------/ ADMIN /--------------[  نمایش فرم تراکنشات  ]-----------------------------------------------
+
     public function index(Request $request)
     {
         $query = Transaction::query()->with('user');
 
-        // فیلتر بر اساس نام کاربر (جستجو با like)
         $userName = trim($request->input('user_name', ''));
         if ($userName !== '') {
             $query->whereHas('user', function ($q) use ($userName) {
@@ -29,12 +55,10 @@ class TransactionController extends Controller
             });
         }
 
-        // فیلتر نوع تراکنش
         if ($request->filled('filter_type')) {
             $query->where('type', $request->input('filter_type'));
         }
 
-        // تبدیل ورودی سال و ماه از فارسی به انگلیسی و تبدیل به میلادی
         $yearInput = $request->input('year');
         $monthInput = $request->input('month');
 
@@ -57,10 +81,9 @@ class TransactionController extends Controller
                 $query->whereBetween('created_at', [$startDate, $endDate]);
             }
         } catch (\Exception $e) {
-            // در صورت نیاز اینجا می‌توانید خطا را لاگ کنید یا از آن رد شوید
+
         }
 
-        // مرتب سازی
         switch ($request->input('sort')) {
             case 'date_asc':
                 $query->orderBy('created_at', 'asc');
@@ -81,18 +104,18 @@ class TransactionController extends Controller
         return view('transactions.index', compact('transactions'));
     }
 
+    //-----------------------------------------[  نمایش تراکنشات کاربر  ]-----------------------------------------------
+
     public function show(Request $request, User $user)
     {
 
         $query = Transaction::query();
         $query->where('user_id', $user->id);
 
-        // فیلتر بر اساس نوع تراکنش
         if ($filter = $request->input('filter_type')) {
             $query->where('type', $filter);
         }
 
-        // مرتب سازی بر اساس ورودی
         switch ($request->input('sort')) {
             case 'date_asc':
                 $query->orderBy('date', 'asc');
@@ -112,31 +135,5 @@ class TransactionController extends Controller
         $transactions = $query->get();
 
         return view('transactions.show', compact('transactions'));
-    }
-
-    public function create()
-    {
-        $users = User::all();
-        return view('transactions.create', compact('users'));
-    }
-
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'amount' => 'required|numeric',
-            'type' => 'required|in:investment,loan_payment',
-            'date' => 'required|date'
-        ]);
-
-        Transaction::create($data);
-
-        return redirect()->route('transactions.index');
-    }
-
-    public function userTransactions($user_id)
-    {
-        $transactions = Transaction::where('user_id', $user_id)->latest()->get();
-        return view('transactions.user', compact('transactions'));
     }
 }

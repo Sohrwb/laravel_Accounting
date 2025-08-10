@@ -11,11 +11,15 @@ use Illuminate\Support\Facades\Auth;
 
 class LoanController extends Controller
 {
+    //-----------/ ADMIN /------------------------------[  نمایش همه وام ها  ]-----------------------------------------------
+
     public function index()
     {
         $loans = Loan::with('user')->latest()->get();
         return view('loans.index', compact('loans'));
     }
+
+    //-----------/ ADMIN /------------------------------[  نمایش فرم ایجاد وام  ]-----------------------------------------------
 
     public function create()
     {
@@ -23,12 +27,7 @@ class LoanController extends Controller
         return view('loans.create', compact('users'));
     }
 
-    public function myLoans()
-    {
-        $loans = Auth::user()->loans;
-
-        return view('loans.myLoans', compact('loans'));
-    }
+    //------------/ ADMIN /-----------------------------[  ذخیره وام  ]-----------------------------------------------
 
     public function store(Request $request)
     {
@@ -41,10 +40,9 @@ class LoanController extends Controller
         ]);
 
 
-        // محاسبه تاریخ پایان
         $endDate = \Carbon\Carbon::parse($request->start_date)->addMonths($request->installments_count - 1);
 
-        // ایجاد وام
+
         $loan = Loan::create([
             'user_id' => $request->user_id,
             'amount' => $request->amount,
@@ -55,7 +53,7 @@ class LoanController extends Controller
             'remaining_amount' => $request->amount
         ]);
 
-        // ایجاد اقساط
+     
         $installmentAmount = floor($request->amount / $request->installments_count);
 
 
@@ -72,8 +70,16 @@ class LoanController extends Controller
         return redirect()->route('loans.index')->with('success', 'وام با اقساط با موفقیت ثبت شد.');
     }
 
+    //-----------------------------------------[  نمایش فرم وام های کاربر  ]-----------------------------------------------
 
+    public function myLoans()
+    {
+        $loans = Auth::user()->loans;
 
+        return view('loans.myLoans', compact('loans'));
+    }
+
+    //-----------------------------------------[  نمایش جزییات وام کاربر  ]-----------------------------------------------
 
     public function show(Loan $loan)
     {

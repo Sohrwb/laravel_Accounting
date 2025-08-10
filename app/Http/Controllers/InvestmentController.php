@@ -13,11 +13,15 @@ use Morilog\Jalali\Jalalian;
 class InvestmentController extends Controller
 {
 
+    //--------------/ ADMIN /---------------------------[  نمایش فرم سرمایه گزاری ها  ]-----------------------------------------------
+
     public function index()
     {
         $investments = Investment::with('user')->latest()->get();
         return view('investments.index', compact('investments'));
     }
+
+    //-----------------------------------------[  ساخت سرمایه جدید برای کاربر  ]-----------------------------------------------
 
     public function create(User $user)
     {
@@ -39,12 +43,15 @@ class InvestmentController extends Controller
         ));
     }
 
+    //-----------------------------------------[  نمایش فرم سرمایه گزاری کاربر  ]-----------------------------------------------
+
     public function show(User $user)
     {
         $investments = Investment::where('user_id', $user->id)->get();
         return view('investments.show', compact('investments'));
     }
 
+    //-----------------------------------------[  ذخیره مقادیر سرمایه  ]-----------------------------------------------
 
     public function store(Request $request)
     {
@@ -61,7 +68,7 @@ class InvestmentController extends Controller
             'month' => $validated['month'],
         ]);
 
-        // 2. افزایش total_investment کاربر
+        // 2. افزایش سرمایه کل کاربر
         $user = User::find($validated['user_id']);
         $user->increment('total_investment', $validated['amount']);
 

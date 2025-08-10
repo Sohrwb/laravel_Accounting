@@ -5,7 +5,7 @@
 @section('content')
     <h3>تراکنش‌های مالی</h3>
 
-    <a href="{{ route('transactions.create') }}" class="btn btn-success mb-3">ثبت تراکنش جدید</a>
+    <a href="{{ route('admin.transactions.create') }}" class="btn btn-success mb-3">ثبت تراکنش جدید</a>
 
     <form method="GET" class="row g-3 mb-4">
         <div class="col-md-3">

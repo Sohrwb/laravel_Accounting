@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
 
+    //-----------------------------------------[  نمایش پروفایل کاربر  ]-----------------------------------------------
+
     public function profile()
     {
         $user = Auth::user();
@@ -48,9 +50,11 @@ class UserController extends Controller
             ->get();
 
         $point = Point::where('user_id', $userId)->first();
-      
+
         return view('users.profile', compact('loan', 'user', 'familyMembers', 'payments', 'point'));
     }
+
+    //----------------/ ADMIN /-------------------------[  نمایش لیست کاربران  ]-----------------------------------------------
 
     public function index()
     {
@@ -58,11 +62,15 @@ class UserController extends Controller
         return view('users.index', compact('users'));
     }
 
+    //----------------/ ADMIN /-------------------------[  نمایش فرم ایجاد کاربر جدید  ]-----------------------------------------------
+
     public function create()
     {
         $families = Family::all();
         return view('users.create', compact('families'));
     }
+
+    //----------------/ ADMIN /-------------------------[  ذخیره کاربر جدید  ]-----------------------------------------------
 
     public function store(Request $request)
     {
@@ -75,7 +83,6 @@ class UserController extends Controller
             'point' => 'required|numeric|min:1000',
         ]);
 
-        // ساخت کاربر
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
@@ -83,23 +90,22 @@ class UserController extends Controller
             'family_id' => $validated['family_id'],
             'total_investment' => $validated['amount'],
         ]);
-
-        // ایجاد امتیاز برای کاربر
+        
         $user->point()->create([
             'points' => $validated['point'],
         ]);
 
         return redirect()->route('admin.users.index')->with('success', 'کاربر با موفقیت ایجاد شد.');
     }
-
-
-
+    //----------------/ ADMIN /-------------------------[  نمایش فرم ویرایش کاربر  ]-----------------------------------------------
 
     public function edit(User $user)
     {
         $families = Family::all();
         return view('users.edit', compact('user', 'families'));
     }
+
+    //----------------/ ADMIN /-------------------------[  اپدیت تغییرات کاربر  ]-----------------------------------------------
 
     public function update(Request $request, User $user)
     {
@@ -120,12 +126,15 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'اطلاعات کاربر ویرایش شد');
     }
 
+    //-----------------/ ADMIN /------------------------[  حذف کاربر  ]-----------------------------------------------
+
     public function destroy(User $user)
     {
         $user->delete();
         return redirect()->route('admin.users.index')->with('success', 'کاربر حذف شد');
     }
 
+    //-----------------/ ADMIN /------------------------[  نمایش جزییات کاربر  ]-----------------------------------------------
 
     public function show(User $user)
     {

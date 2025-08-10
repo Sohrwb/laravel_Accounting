@@ -7,17 +7,23 @@ use Illuminate\Http\Request;
 
 class PointController extends Controller
 {
+    //----------------/ ADMIN /-------------------------[  نمایش امتیازات  ]-----------------------------------------------
+
     public function index()
     {
         $points = Point::with('user')->get();
         return view('points.index', compact('points'));
     }
 
+    //----------------/ ADMIN /-------------------------[  نمایش فرم ویرایش امتیاز   ]-----------------------------------------------
+
     public function edit($id)
     {
         $point = Point::findOrFail($id);
         return view('points.edit', compact('point'));
     }
+
+    //----------------/ ADMIN /-------------------------[  اپدیت تغییرات  ]-----------------------------------------------
 
     public function update(Request $request, $id)
     {
